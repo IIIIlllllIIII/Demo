@@ -15,7 +15,7 @@ import types
 #     # 直接将login方法绑定到实例上
 #     server.login = login
 
-# 定义一个函数，用于动态地给POP3_SSL实例添加login方法，之后再创建也可以用
+# 定义一个函数，用于动态地给POP3_SSL实例添加login方法，之后再创建的实例也可以用
 def apply_login_method(instance):
     def login(self, email, password):
         self.user(email)
