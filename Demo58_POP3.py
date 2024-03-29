@@ -46,13 +46,13 @@ def print_info(msg, indent= 0):
 def decode_str(s):
     value, charset = decode_header(s)[0]    # 解码decode_header()函数，返回一个列表，列表的每一项都是一个元组第元组的一个元素是解码后的字符串，第二个元素是编码格式
     if charset:
-        value = value.decode(charset)
+        value = value.decode(charset) #
     return value 
-
+#获取邮件的编码格式
 def guess_charset(msg):
-    charset = msg.get_charset()     #
+    charset = msg.get_charset()     #获取邮件的原始指定字符集。
     if charset is None:
-        content_type = msg.get('Content-Type', '').lower()
+        content_type = msg.get('Content-Type', '').lower()  
         pos = content_type.find('charset=')
         if pos >= 0:
             charset = content_type[pos + 8:].strip()
