@@ -22,3 +22,8 @@ conn.commit()
 cursor.close()
 # 关闭Connection:
 conn.close()
+
+import sqlite3
+conn = sqlite3.connect('test.db') #实例化连接对象
+cursor = conn.cursor()    #实例化游标对象
+cursor.execute()
