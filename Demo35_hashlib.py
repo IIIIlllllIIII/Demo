@@ -1,7 +1,7 @@
 import hashlib
 
-MD5 = hashlib.md5()
-MD5.update('Hello World!'.encode('utf-8'))
+MD5 = hashlib.md5() #创建md5对象
+MD5.update('Hello World!'.encode('utf-8')) #计算md5值
 print(MD5.hexdigest())
 
 db = {

@@ -1,9 +1,9 @@
 import hashlib, random
 
 def get_md5(user, pwd):
-    return hashlib.md5((user.username + pwd + user.salt).encode('utf-8')).hexdigest()
+    return hashlib.md5((user.username + pwd + user.salt).encode('utf-8')).hexdigest() #这里的hexdigest()方法返回的是16进制的MD5字符串
 
-class User(object):   
+class User(object):   # 用户类
     def __init__(self, username, password):
         self.username = username
         self.salt = ''.join([chr(random.randint(48, 122)) for i in range(20)])
