@@ -78,8 +78,8 @@ def main():
         mime.add_header('Content-Disposition', 'attachment', filename= 'thumbnail.jpg') #这里的filename是附件的名字
         mime.add_header('Content-ID', '<0>')    #这里的content-id是附件在html中引用的标识
         mime.add_header('X-Attachment-Id', '0') #这里Attachment-Id是附件的标识
-        mime.set_payload(f.read())
-        encoders.encode_base64(mime)    #对附件进行编码
+        mime.set_payload(f.read())  #读取附件
+        encoders.encode_base64(mime)    #将附件的二进制数据转换为Base64编码，将编码后的数据写入mime对象
         msg.attach(mime)
     
     try:
