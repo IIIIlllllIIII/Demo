@@ -15,6 +15,6 @@ async def main():
 if __name__ == '__main__':
     
     s = time.perf_counter() # 获取当前时间
-    asyncio.run(main())
+    asyncio.run(main())     # 运行协程
     elapsed = time.perf_counter() - s
     print(f'{__file__} executed in {elapsed}')

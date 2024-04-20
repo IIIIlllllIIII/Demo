@@ -18,8 +18,8 @@ def get_result_queue():
     return result_queue
 
 # 将获取任务队列和结果队列的函数注册到 QueueManager 类中
-QueueManager.register('get_task_queue', callable=get_task_queue)
-QueueManager.register('get_result_queue', callable=get_result_queue)
+QueueManager.register('get_task_queue', callable=get_task_queue) # 这里不能用匿名函数lambda
+QueueManager.register('get_result_queue', callable=get_result_queue)    # 这里也是
 
 if __name__ == '__main__':
     # 创建 QueueManager 实例，指定地址和认证密钥
@@ -34,12 +34,12 @@ if __name__ == '__main__':
     for i in range(10):
         n = random.randint(0, 10000)
         print('Put task %d...' % n)
-        task.put(n)
+        task.put(n) # 放入队列用put，取出用get
 
     print('Try get results.')
     # 从结果队列中获取结果
     for i in range(10):
-        r = result.get(timeout=10000)
+        r = result.get(timeout=10000) # 从队列中取出用get，取出时如果队列为空，则阻塞等待，直到队列中有数据timeout=10000表示超时时间是10000毫秒
         print('Result: %s' % r)
 
     # 关闭 QueueManager 实例
