@@ -2,8 +2,9 @@
 import socket
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
-from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor   # 引入线程池
+from collections import defaultdict # 引入字典
+
 client_data = defaultdict(str)  #创建一个字典，用于存储客户端的连接信息
 lock = threading.Lock() #创建一个锁
 def main():
