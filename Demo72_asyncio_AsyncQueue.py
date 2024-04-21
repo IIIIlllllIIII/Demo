@@ -66,6 +66,8 @@ if __name__ == '__main__':
     parser.add_argument("-c", '--ncon', type= int, default= 10) # 消费者数量
     ns = parser.parse_args()    # 解析命令行参数
     start = time.perf_counter() # 获取当前时间
+    
     asyncio.run(main(**ns.__dict__))    # 运行main函数
+    
     elapsed = time.perf_counter() - start   # 计算程序运行时间
     print(f"Program finished in {elapsed:.5f} seconds.") # 打印程序运行时间
