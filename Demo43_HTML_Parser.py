@@ -28,26 +28,27 @@
 #作业：找一个网页，并尝试解析HTML。
 from urllib import request
 from html.parser import HTMLParser
-import re   #regular expression正则表达式
+import re   # regular expression正则表达式
 import gzip
-def getdata(url):   #GET请求到指定的页面，并返回UTF-8格式的HTTP
+
+def getdata(url):   # 发送一个GET请求到指定的页面，并返回UTF-8格式的HTTP
     header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"}
     req = request.Request(url, headers= header)
     with request.urlopen(req, timeout= 20) as f:
         data = f.read()
         content_encoding = f.headers.get('Content-Encoding')
-        if content_encoding == 'gzip':      #响应头被压缩了
-            data = gzip.decompress(data)    #先解压
+        if content_encoding == 'gzip':      # 响应头被压缩了
+            data = gzip.decompress(data)    # 先解压
         print(f'Status: {f.status} {f.reason}')     
         print()
     return data.decode('utf-8')
 
 class MyHTMLParser_2(HTMLParser):
     def __init__(self):
-        super().__init__()
-        self.__pointer = '' #设置一个私有空字符变量，用于临时存储读取到的标签，并判断是否是所需要的
-        self.info = []  #存储
-    def handle_starttag(self, tag, attrs):
+        super().__init__()  # 继承父类的构造函数
+        self.__pointer = '' # 设置一个私有空字符变量，用于临时存储读取到的标签，并判断是否是所需要的
+        self.info = []  # 创建一个列表，用于存储
+    def handle_starttag(self, tag, attrs):  # 起始标签
         if ('class', 'event-title') in attrs:
             self.__pointer = 'name'
         elif tag == 'time':
@@ -56,9 +57,9 @@ class MyHTMLParser_2(HTMLParser):
             self.__pointer = 'year'
         elif ('class', 'event-location') in attrs:
             self.__pointer = 'location'
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag):   # 清空临时存储读到的标签
         self.__pointer = ''        
-    def handle_data(self, data):
+    def handle_data(self, data):    # HTML中的文本数据
         if self.__pointer == 'name':
             self.info.append(f'会议名称：{data}')
         if self.__pointer == 'time':
