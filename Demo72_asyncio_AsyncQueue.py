@@ -6,7 +6,7 @@ import os
 import random
 import time
 
-# 创建一个指定大小的随机字符串
+# 创建一个指定大小的(size)随机字符串
 async def makeitem(size: int = 5) -> str:
     return os.urandom(size).hex()
 
@@ -20,7 +20,7 @@ async def randsleep(caller= None) -> None:
 # 生产者协程：随机生成元素并加入队列
 async def produce(name: int, q: asyncio.Queue) -> None:
     n = random.randint(0, 10)
-    for _ in it.repeat(None, n):    # 生成None，重复n次，'_'表示忽略，意思是只做循环次数控制
+    for _ in it.repeat(None, n):    # 生成None，重复n次，'_'表示忽略，这里的for只做循环次数控制
         await randsleep(caller= f"Producer {name}")
         i = await makeitem()
         t = time.perf_counter()
@@ -47,7 +47,7 @@ async def main(nprod: int, ncon: int):
     # 创建消费者任务
     consumers = [asyncio.create_task(consume(n, q)) for n in range(ncon)]
     #这里用asyncio.creat_task创建任务而不是用asyncio.gather是因为它允许你在某些任务还在运行的同时进行其他操作，在任务运行时保持更多的控制或灵活性。
-    # 比如下面的c.cancel()和q.jion()就是对这些协程进行单独操作
+    # 比如下面的c.cancel()和q.join()就是对这些协程进行单独操作
     
     # 等待所有生产者完成
     await asyncio.gather(*producers)

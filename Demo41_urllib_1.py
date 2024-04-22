@@ -1,27 +1,27 @@
 from urllib import request
-#Get
+# Get
 with request.urlopen('https://www.python.org') as f:
     data = f.read()
-    print('Status:', f.status, f.reason)    #这里面Status中保存的格式是str形式
+    print('Status:', f.status, f.reason)    # 这里面Status中保存的格式是str形式
     for k, v in f.getheaders():
-        print(k, ':', v)    #这里不用转换时是因为Python在HTTP中响应中自动将字节串转换为unicode编码
+        print(k, ':', v)    # 这里不用转换时是因为Python在HTTP中响应中自动将字节串转换为unicode编码
     #print('Data:', data.decode('utf-8'))   #f.read()在HTTP响应中，除了状态行之外的所有内容，包括响应头部和响应体，都是以字节串的形式返回的。
 
 from urllib import request
 url_1 = 'http://www.douban.com'
 head = {'User-Agent': 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25'}
-req = request.Request(url_1)  #创建了一个HTTP请求对象'req'
+req = request.Request(url_1)  # 创建了一个HTTP请求对象'req'
 req.add_header('User-Agent', 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25')    #通过add_header向请求对象'req'添加一个自定义的头部信息
-#或者这样添加
+# 或者这样添加
 for key, value in head.items():
     req.add_header(key, value)
 with request.urlopen(req) as f:
     print('Status:', f.status, f.reason)
     for k, v in f.getheaders():
         print('%s: %s' %(k, v))
-    #print('Data:', f.read().decode('utf-8'))
+    # print('Data:', f.read().decode('utf-8'))
         
-#Post
+# Post
 from urllib import request, parse   #urllib里的parse和argparse不同
 
 print('Login to Webo.cn...')

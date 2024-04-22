@@ -10,7 +10,7 @@ c = (
 )   #其中\033[表示用ANSI转译码表示文本颜色的方法，0表示重置颜色，36表示青色，91表示红色，35表示洋红
 
 async def makerandom(idx: int, threshold: int = 6) -> int:
-    # 输出初始状态
+    # 输出初始状态，这里c[]表示颜色，引用上面的c中的颜色
     print(c[idx + 1] + f'Initiated makerandom{[idx]}. Need more than {threshold}.')
     i = random.randint(0, 10)   # 生成随机数
     # 当随机数小于阈值，则进入循环

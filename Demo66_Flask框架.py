@@ -1,4 +1,4 @@
-# Flask框架
+# Flask框架，轻量级的 Web 应用框架
 from flask import Flask
 from flask import request
 

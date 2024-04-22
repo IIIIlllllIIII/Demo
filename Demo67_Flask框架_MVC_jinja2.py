@@ -4,7 +4,7 @@
  
 from flask import Flask, request, render_template   # render_template 渲染模板
 
-app = Flask(__name__, template_folder= './HTML_Templates')  # 创建Flask应用，通过template_folder参数指定模板文件夹
+app = Flask(__name__, template_folder= './HTML_Templates')  # 创建Flask应用，(template模板)通过template_folder参数指定模板文件夹
 
 @app.route('/', methods= ['GET', 'POST'])
 def home():

@@ -1,7 +1,7 @@
-from xml.parsers.expat import ParserCreate
+from xml.parsers.expat import ParserCreate  # 其中expat是expat的缩写，expat是Python的一个XML解析器
 
-#用SAX(Simple API for XML)模式解析XML，XML例子：<a href="/">python</a>
-class DefaultSaxHandler(object):    #三个事件:1.start_element事件,在读取<a href="/">时；2.char_data事件，在读取python时；3.end_element事件，在读取</a>时。
+# 用SAX(Simple API for XML)模式解析XML，XML例子：<a href="/">python</a>
+class DefaultSaxHandler(object):    # 三个事件:1.start_element事件,在读取<a href="/">时；2.char_data事件，在读取python时；3.end_element事件，在读取</a>时。
     def start_element(self, name, attrs):
         print('sax:start_element: %s, attrs: %s' %(name, str(attrs)))
     
@@ -29,6 +29,7 @@ def encode(data):
     # 这里可以编写将字符串编码为 XML 实体的逻辑
     # 例如，将 '&' 替换为 '&amp;'
     return data.replace('&', '&amp;')
+
 def generate_xml():
     L = []
     L.append(r'<?xml version="1.0"?>')
@@ -43,8 +44,9 @@ print(xml_string)
 #作业：请利用SAX编写程序解析高德的XML格式的天气预报，获取天气预报
 from xml.parsers.expat import ParserCreate
 from urllib import request
-class WeatherSaxHandler(object):    #是类！！！
-    #先定义三个基础参数
+
+class WeatherSaxHandler(object):    # 是类！！！
+    # 先定义三个基础参数
     def __init__(self):
         self.city = ''      #城市
         self.pointer = ''   #临时变量用于保存名字
