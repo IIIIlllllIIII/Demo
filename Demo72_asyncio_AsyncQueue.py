@@ -6,9 +6,9 @@ import os
 import random
 import time
 
-# 创建一个指定大小的(size)随机字符串
+# 创建一个指定大小的(size)随机字符串.hex()将该数字转换成16进制字符串
 async def makeitem(size: int = 5) -> str:
-    return os.urandom(size).hex()
+    return os.urandom(size).hex()   # unrandom(unpredictable)
 
 # 模拟带有随机睡眠时间的操作
 async def randsleep(caller= None) -> None:
