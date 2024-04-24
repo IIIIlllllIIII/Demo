@@ -30,6 +30,7 @@ with request.urlopen(req, data=  parse.urlencode(parameters).encode('utf-8')) as
     print(f.status, f.reason)
     print(data.decode('utf-8'))
 
+# POST请求，post有缺省的headers不用设置
 url_1 = 'https://accounts.douban.com/login'
 # 这里默认使用application/x-www-form-urlencoded对POST数据编码
 r_3 = requests.post(url_1, data={'form_email': 'abc@example.com', 'form_password': '123456'})
