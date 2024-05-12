@@ -1,4 +1,4 @@
-# aiohttp(Asynchronous I/O HTTP)
+# aiohttp(Asynchronous I/O HTTP)使用aiohttp库实现的异步爬虫程序，用于抓取多个页面中的链接，并将结果写入文件。
 # Asynchronous get links embedded in multiple pages
 import asyncio
 import logging  # 引入logging，日志库
