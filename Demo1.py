@@ -77,6 +77,7 @@ class ModelMetaclass(type):
         attrs['__table__'] = name
         # 创建并返回模型类
         return type.__new__(cls, name, bases, attrs)
+    
 
 # 定义模型基类，用于定义数据模型
 class Model(dict, metaclass=ModelMetaclass):
