@@ -1,6 +1,7 @@
 # 导入系统和操作系统模块
 import sys
 import os
+import sqlite3
 
 # 定义字段类，用于创建数据库字段
 class Field(object):
