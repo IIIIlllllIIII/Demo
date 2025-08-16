@@ -22,6 +22,7 @@ def _format_addr(s):
     name = Header(name,'utf-8').encode()   #这里的utf-8是编码格式，指的是输出的编码格式，而不是name的编码格式
     return formataddr((name, addr))
 
+
 #获取收件人地址
 def get_name(s):
     name, addr = parseaddr(s)
