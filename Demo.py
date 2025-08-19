@@ -140,3 +140,15 @@ Hello = type('Hello', (object,), dict(hello=fn)) # 创建Hello class
 print(Hello.hello)
 Hello().hello()
 
+class Test(type):
+    def __new__(cls, name, bases, attrs):
+        print('Meta.new called')
+        print('1', cls, '2', name, '3', bases, '4', attrs)
+
+        return super().__new__(cls, name, bases, attrs)
+class Test1(Screen, metaclass=Test):
+    def __init__(self, number):
+        self.number = number
+        print('Test1.__init__ called', self.number)
+    pass
+a = Test1(999)
