@@ -152,3 +152,38 @@ class Test1(Screen, metaclass=Test):
         print('Test1.__init__ called', self.number)
     pass
 a = Test1(999)
+
+class Meta(type):
+    
+    def __new__(cls, name, bases, attrs):
+        print('Meta.new called')
+        print('1', cls, '2', name, '3', bases, '4', attrs)
+
+        return super().__new__(cls, name, bases, attrs)
+    
+    def __call__(cls, *args, **kwargs):
+        print(f"[Meta.__call__] making {cls.__name__} with", args, kwargs)
+        print(cls)
+        obj = super().__call__(*args, **kwargs)  # 走默认：C.__new__ → C.__init__
+        print(f"[Meta.__call__] done -> {obj!r}")
+        return obj
+
+class C(metaclass=Meta):
+    def __new__(cls, *args, **kwargs):
+        print("[C.__new__]")
+        print(cls)
+        return super().__new__(cls)
+    def __init__(self, n):
+        print("[C.__init__] n=", n)
+        self.n = n
+    def __call__(self, x):
+        print(f"[C.__call__] instance called with x={x}")
+        return self.n + x
+
+print("=== instantiate ===")
+a = C(10)          # 触发 Meta.__call__ → C.__new__ → C.__init__
+
+print("=== call instance ===")
+y = a(5)           # 触发 C.__call__（与实例化无关）
+print("y =", y)
+
