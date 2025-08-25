@@ -153,37 +153,79 @@ class Test1(Screen, metaclass=Test):
     pass
 a = Test1(999)
 
-class Meta(type):
+# class Meta(type):
+#     def __init__(cls, name, bases, attrs):
+#         print('Meta.init called')
+#         print('1', cls, '2', name, '3', bases, '4', attrs)
+#         super().__init__(name, bases, attrs)
+#     def __new__(cls, name, bases, attrs):
+#         print('Meta.new called')
+#         print('1', cls, '2', name, '3', bases, '4', attrs)
+
+#         return super().__new__(cls, name, bases, attrs)
     
-    def __new__(cls, name, bases, attrs):
-        print('Meta.new called')
-        print('1', cls, '2', name, '3', bases, '4', attrs)
+#     def __call__(cls, *args, **kwargs):
+#         print(f"[Meta.__call__] making {cls.__name__} with", args, kwargs)
+#         print(cls)
+#         obj = super().__call__(*args, **kwargs)  # 走默认：C.__new__ → C.__init__
+#         print(f"[Meta.__call__] done -> {obj!r}")
+#         return obj
 
-        return super().__new__(cls, name, bases, attrs)
-    
-    def __call__(cls, *args, **kwargs):
-        print(f"[Meta.__call__] making {cls.__name__} with", args, kwargs)
-        print(cls)
-        obj = super().__call__(*args, **kwargs)  # 走默认：C.__new__ → C.__init__
-        print(f"[Meta.__call__] done -> {obj!r}")
-        return obj
+# class C(metaclass=Meta):
+#     def __new__(cls, *args, **kwargs):
+#         print("[C.__new__]")
+#         print(cls)
+#         return super().__new__(cls)
+#     def __init__(self, n):
+#         print("[C.__init__] n=", n)
+#         self.n = n
+#         # super().__init__()
+#     def __call__(self, x):
+#         print(f"[C.__call__] instance called with x={x}")
+#         return self.n + x
 
-class C(metaclass=Meta):
-    def __new__(cls, *args, **kwargs):
-        print("[C.__new__]")
-        print(cls)
-        return super().__new__(cls)
-    def __init__(self, n):
-        print("[C.__init__] n=", n)
-        self.n = n
-    def __call__(self, x):
-        print(f"[C.__call__] instance called with x={x}")
-        return self.n + x
+# print("=== instantiate ===")
+# a = C(10)          # 触发 Meta.__call__ → C.__new__ → C.__init__
 
-print("=== instantiate ===")
-a = C(10)          # 触发 Meta.__call__ → C.__new__ → C.__init__
+# print("=== call instance ===")
+# y = a(5)           # 触发 C.__call__（与实例化无关）
+# print("y =", y)
 
-print("=== call instance ===")
-y = a(5)           # 触发 C.__call__（与实例化无关）
-print("y =", y)
+class Loader:
+    def __init__(self, data): self.data = data
 
+    @staticmethod
+    def _preprocess(s):           # 供工厂调用的钩子
+        return s.strip()
+
+    @staticmethod
+    def from_text(s):
+        # ❌ 写死为 Loader(...)，并且调用的是 Loader._preprocess
+        return Loader(Loader._preprocess(s))
+
+class FancyLoader(Loader):
+    @staticmethod
+    def _preprocess(s):
+        return s.replace(" ", "").upper()
+
+a = FancyLoader.from_text("  a b c  ")
+print(type(a).__name__, a.data)   # Loader ABC   ← 类型被“降级”为基类，钩子也用不到子类的
+# class Loader:
+#     def __init__(self, data): self.data = data
+
+#     @classmethod
+#     def _preprocess(cls, s):       # 让钩子同样“看见”cls
+#         return s.strip()
+
+#     @classmethod
+#     def from_text(cls, s):
+#         # ✅ 调用 cls._preprocess，并返回 cls(...) —— 全程多态
+#         return cls(cls._preprocess(s))
+
+# class FancyLoader(Loader):
+#     @classmethod
+#     def _preprocess(cls, s):
+#         return s.replace(" ", "").upper()
+
+# b = FancyLoader.from_text("  a b c  ")
+# print(type(b).__name__, b.data)    # FancyLoader ABC   ← 类型与钩子都按子类逻辑分派
